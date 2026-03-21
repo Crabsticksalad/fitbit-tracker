@@ -1,0 +1,7 @@
+{
+  "version": "0.2.0",
+  "createdAt": 1742500000000,
+  "author": "Crabsticksalad",
+  "tags": ["fitbit", "health", "sleep", "activity", "wearable"],
+  "description": "Full Fitbit integration with sleep staging, activity tracking, HR zones, and section-based reporting"
+}
