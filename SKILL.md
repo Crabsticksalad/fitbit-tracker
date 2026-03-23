@@ -1,6 +1,24 @@
 ---
 name: fitbit-tracker
 description: Personal Fitbit integration for daily health tracking with adaptive sleep and activity reporting
+version: 0.2.1
+metadata:
+  clawdbot:
+    env:
+      FITBIT_CLIENT_ID:
+        description: Fitbit OAuth client ID
+        required: true
+      FITBIT_CLIENT_SECRET:
+        description: Fitbit OAuth client secret
+        required: true
+      FITBIT_REDIRECT_URI:
+        description: OAuth redirect URI (typically http://localhost:8080)
+        required: true
+      FITBIT_TZ:
+        description: Timezone for date calculations (e.g. Europe/London)
+        default: UTC
+    requires:
+      bins: [python3]
 ---
 
 # Fitbit Tracker

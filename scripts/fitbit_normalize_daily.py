@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
 
@@ -112,7 +112,7 @@ def main() -> None:
     out: Dict[str, Any] = {
         "date": date,
         "timezone": tz,
-        "generated_at": datetime.utcnow().isoformat() + "Z",
+        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "sleep": {
             "duration_minutes": sleep_minutes,
             "efficiency": sleep_efficiency,

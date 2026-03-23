@@ -15,7 +15,7 @@ import json
 import os
 import sys
 import urllib.request
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict
 
 try:
@@ -85,7 +85,7 @@ def main() -> None:
     bundle: Dict[str, Any] = {
         "requested_date": day,
         "requested_tz": args.tz,
-        "fetched_at": datetime.utcnow().isoformat() + "Z",
+        "fetched_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "api_base": API_BASE,
         "endpoints": {
             "activity": {"url": act_url, "data": http_get_json(act_url, access_token)},
