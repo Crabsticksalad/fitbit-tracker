@@ -70,7 +70,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", required=True, help="today|yesterday|YYYY-MM-DD")
     ap.add_argument("--out", required=True)
-    ap.add_argument("--tz", default=os.environ.get("FITBIT_TZ", "Asia/Shanghai"))
+    ap.add_argument("--tz", default=os.environ.get("FITBIT_TZ", "UTC"))
     args = ap.parse_args()
 
     day = resolve_date(args.date, args.tz)

@@ -16,7 +16,7 @@
     "duration_minutes": 437,
     "efficiency": 89,
     "time_in_bed_minutes": 491,
-    "score": 85,
+    "sleep_score": 85,
     "deep_minutes": 92,
     "light_minutes": 240,
     "rem_minutes": 105,
@@ -93,7 +93,7 @@
 | `duration_minutes` | int\|null | Actual sleep time (excludes awake periods) |
 | `efficiency` | int\|null | Sleep efficiency percentage |
 | `time_in_bed_minutes` | int\|null | Total time spent in bed |
-| `score` | int\|null | Overall sleep score (not always available) |
+| `sleep_score` | int\|null | Overall sleep score (not always available) |
 | `deep_minutes` | int\|null | Deep sleep stage minutes |
 | `light_minutes` | int\|null | Light sleep stage minutes |
 | `rem_minutes` | int\|null | REM sleep stage minutes |

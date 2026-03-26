@@ -1,24 +1,36 @@
 ---
 name: fitbit-tracker
 description: Personal Fitbit integration for daily health tracking with adaptive sleep and activity reporting
-version: 0.2.1
+version: 0.2.2
+triggers:
+  - "how did I sleep"
+  - "sleep"
+  - "sleep report"
+  - "fitbit"
+  - "health"
+  - "steps"
+  - "activity"
+  - "full report"
+  - "daily summary"
 metadata:
   clawdbot:
-    env:
-      FITBIT_CLIENT_ID:
-        description: Fitbit OAuth client ID
-        required: true
-      FITBIT_CLIENT_SECRET:
-        description: Fitbit OAuth client secret
-        required: true
-      FITBIT_REDIRECT_URI:
-        description: OAuth redirect URI (typically http://localhost:8080)
-        required: true
-      FITBIT_TZ:
-        description: Timezone for date calculations (e.g. Europe/London)
-        default: UTC
+    emoji: "💪"
     requires:
       bins: [python3]
+    config:
+      env:
+        FITBIT_CLIENT_ID:
+          description: Fitbit OAuth client ID
+          required: true
+        FITBIT_CLIENT_SECRET:
+          description: Fitbit OAuth client secret
+          required: true
+        FITBIT_REDIRECT_URI:
+          description: OAuth redirect URI (typically http://localhost:8080)
+          required: true
+        FITBIT_TZ:
+          description: Timezone for date calculations (e.g. Europe/London)
+          default: UTC
 ---
 
 # Fitbit Tracker
@@ -116,6 +128,37 @@ This will:
 - Save tokens to `~/.config/openclaw/fitbit/token.json`
 
 Tokens are automatically refreshed when they expire.
+
+## Commands
+
+The skill uses a 3-step pipeline:
+
+```bash
+# Step 1: Fetch raw data from Fitbit API
+# IMPORTANT: For sleep queries (morning), use --date today not yesterday!
+# Fitbit returns last night's sleep under today's date.
+python3 scripts/fitbit_fetch_daily.py --date today --out /tmp/fitbit_raw.json
+
+# Step 2: Normalize into clean format (extracts actual sleep time, stages, activity)
+python3 scripts/fitbit_normalize_daily.py /tmp/fitbit_raw.json --out /tmp/fitbit_day.json
+
+# Step 3: Render for display (use --channel discord, telegram, or generic)
+python3 scripts/fitbit_render.py /tmp/fitbit_day.json --channel discord
+```
+
+For a specific date (YYYY-MM-DD format):
+```bash
+python3 scripts/fitbit_fetch_daily.py --date 2026-03-25 --out /tmp/fitbit_raw.json
+```
+
+For sleep section only:
+```bash
+python3 scripts/fitbit_render.py /tmp/fitbit_day.json --channel discord --section sleep
+```
+
+**Critical date rule:** When user asks about sleep in the morning (e.g., "how did I sleep"), use `--date today`. Fitbit's sleep API associates sleep with the date you woke up, so last night's sleep (Mar 25 11pm → Mar 26 7am) appears under date "today" (Mar 26). Only use `--date yesterday` for activity-only queries when you specifically want the previous full day's activity data.
+
+**Important:** Always run the full pipeline (fetch → normalize → render). Never use raw API `duration` field directly — it includes wake periods inside the sleep window. The normalized `duration_minutes` field (which maps to Fitbit's `minutesAsleep`) is the actual sleep time.
 
 ## Usage Examples
 

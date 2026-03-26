@@ -117,7 +117,7 @@ def main() -> None:
             "duration_minutes": sleep_minutes,
             "efficiency": sleep_efficiency,
             "time_in_bed_minutes": time_in_bed,
-            "score": sleep_score,
+            "sleep_score": sleep_score,
             "deep_minutes": sleep_deep,
             "light_minutes": sleep_light,
             "rem_minutes": sleep_rem,
